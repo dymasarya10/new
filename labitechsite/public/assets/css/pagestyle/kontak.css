@@ -1,0 +1,9 @@
+@media (max-width: 425px) {
+    .kontakmap{
+        width: 100%;
+        height: 400px;
+    }
+    .icon-kontak{
+        width: 30px;
+    }
+}

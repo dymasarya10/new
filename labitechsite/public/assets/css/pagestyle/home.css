@@ -1,0 +1,94 @@
+.section-homeland{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 90vh;
+}
+.section-homeland-content{
+    min-height: 90vh;
+    background-color: rgba(0, 0, 0, .3)
+}
+.homeland-choices{
+    height: 9vh;
+    width: 100%;
+    border: 2px solid #00B894;
+    /* border-radius: 20px; */
+    transition: all .4s;
+}
+.homeland-choices a{
+    font-size: 30px;
+    letter-spacing: 2px;
+}
+.homeland-choices:hover{
+    cursor: pointer;
+    background-color: #00B894;
+}
+.homeland-choices-container{
+    width: 60%;
+}
+.section-homeprom-content{
+    height: 30vh;
+    background-color: #EFEFEF;
+}
+.border-green{
+    border: 1px solid green;
+}
+.section-banner{
+
+}
+.border-g{
+    border: 2px solid green;
+}
+.section-homeprom-shortdesc{
+    width: 80%;
+}
+.section-homeprof{
+    background-color: #EFEFEF;
+    min-height: 70vh;
+}
+.carousel-indicators [data-bs-target]{
+    background-color: #00B894;
+    width: .9vw;
+    height: .9vh;
+}
+.cars-home{
+    min-height: 70vh;
+}
+.homeimg-cars{
+    border-radius: 200px;
+}
+.container-imgcars{
+    width: 100%;
+    height: 70vh;
+}
+.carousel-control-prev-icon-homeact{
+    background-image: url('../../img/icon/chevron-left-svgrepo-com.svg');
+}
+.carousel-control-next-icon-homeact{
+    background-image: url('../../img/icon/chevron-right-svgrepo-com.svg');
+}
+.carsimg{
+    height: 100%;
+}
+.imghome-banner{
+    width: 100%;
+
+}
+.section-homeartc{
+    background-color: #EFEFEF;
+}
+.billybox-height{
+    min-height: 15vh;
+}
+
+@media (max-width: 425px) {
+    .homeland-choices-container{
+        width: 100%;
+    }
+    .img-carsfirst{
+        height: 80vh;
+    }
+    .carousel-indicators [data-bs-target]{
+        width: 2vw;
+    }
+}

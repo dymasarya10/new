@@ -1,0 +1,171 @@
+@extends('layouts.main-layoutsadmin')
+@section('sectionadmin')
+    <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#createtestimon">
+        Tambah Data
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="createtestimon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="/createtestimon" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                name="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Pekerjaan</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" name="job">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Ulasan</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="rating"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Foto Profil</label>
+                            <img class="img-preview img-fluid d-none" width="100%">
+                            <input class="form-control form-control-sm" id="formFileSm" type="file" name="profImage"
+                                aria-describedby="passwordHelpBlock" onchange="previewImage()">
+                            <div id="passwordHelpBlock" class="form-text pt-3 ps-2">
+                                Disarankan untuk mengikuti arahan berikut agar lebih maksimal : <br>
+                                - Ekstensi File PNG <br>
+                                - Rasio 1:1 <br>
+                                - Ukuran maksimal 1 mb <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Pekerjaan</th>
+                <th scope="col">Ulasan</th>
+                <th scope="col text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($collection as $item)
+                <tr>
+                    <th scope="row">{{ $loop->iteration }}</th>
+                    <td>
+                        <img src="{{ asset('storage/'.$item->foto) }}" alt="" class="img-thumbnail"
+                            width="118">
+                    </td>
+                    <td>
+                        {{ $item->nama }}
+                    </td>
+                    <td>
+                        {{ $item->pekerjaan }}
+                    </td>
+                    <td>
+                        <p
+                            style="width: 200px; overflow:hidden;white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;">
+                            {{ $item->ulasan }}
+                        </p>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal{{ $item->id }}">
+                            <i class="far fa-eye" style="color: #ffffff;"></i>
+                        </button>
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal{{ $item->id }}edit">
+                            <i class="fas fa-edit" style="color: #ffffff;"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger"><a href="/deletetestimon/{{ $item->id }}"
+                                onclick="return confirmDelete()"><i class="fas fa-trash"
+                                    style="color: #ffffff;"></i></a></button>
+                    </td>
+                </tr>
+                <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Cabang</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><img src="{{ asset('storage/'.$item->foto) }}" alt="" class="img-thumbnail"
+                                    width="118"></p>
+                                <p>Nama : {{$item->nama}}</p>
+                                <p>Pekerjaan : {{$item->pekerjaan}}</p>
+                                <p>Ulasan : {{$item->ulasan}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="exampleModal{{ $item->id }}edit" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Detail</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/updatetestimon/{{ $item->id }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('put')
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Nama</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp" value="{{ $item->nama }}"
+                                            name="testimon_name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">Pekerjaan</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1"
+                                            value="{{ $item->pekerjaan }}" name="testimon_pekerjaan">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Ulasan</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1"
+                                            aria-describedby="emailHelp"
+                                            name="testimon_rating" rows="3">{{ $item->ulasan }}</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="hidden" name="oldImage" value="{{$item->foto}}">
+                                        <label for="exampleInputPassword1" class="form-label">Foto Profil</label>
+                                        <img src="{{ asset('storage/'.$item->foto) }}" class="img-previewEdit img-fluid d-block" width="100%">
+                                        <input class="form-control form-control-sm" id="formFileSmEdit" type="file" name="profImage"
+                                            aria-describedby="passwordHelpBlock" onchange="previewImageEdit()">
+                                        <div id="passwordHelpBlock" class="form-text pt-3 ps-2">
+                                            Disarankan untuk mengikuti arahan berikut agar lebih maksimal : <br>
+                                            - Ekstensi File PNG <br>
+                                            - Rasio 1:1 <br>
+                                            - Ukuran maksimal 1 mb <br>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-warning">Ubah</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </tbody>
+    </table>
+    <script src="{{ asset('adminassets/js/loadimage.js') }}"></script>
+    <script src="{{asset('adminassets/js/confirm.js')}}"></script>
+@endsection
